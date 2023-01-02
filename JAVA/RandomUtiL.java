@@ -1,27 +1,6 @@
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.Objects;
 import java.util.Random;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 
 public class RandomUtil {
 
@@ -46,7 +25,6 @@ public class RandomUtil {
     }
 
     public static int getRandomNumberInRange(int min, int max) {
-
 	if (min >= max) {
 	    throw new IllegalArgumentException("max must be greater than min");
 	}
@@ -54,5 +32,4 @@ public class RandomUtil {
 	Random r = new Random();
 	return r.nextInt((max - min) + 1) + min;
     }
-
 }
