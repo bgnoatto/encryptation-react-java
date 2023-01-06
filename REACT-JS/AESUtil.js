@@ -4,10 +4,8 @@ import CryptoJS from 'crypto-js';
 export default class AESUtil {
     constructor() {
         this._keySize = 256;
-        // this._ivSize = 128;
-        this._ivSize = 12;
-        // this._iterationCount = 1989;
-        this._iterationCount = 65536;
+        this._ivSize = 128;
+        this._iterationCount = 1989;
     }
 
     get keySize() {
@@ -29,16 +27,13 @@ export default class AESUtil {
     generateKey( salt, passPhrase ) {
         return CryptoJS.PBKDF2( passPhrase, CryptoJS.enc.Hex.parse( salt ), {
             keySize: this.keySize / 32,
-            // keySize: this.keySize,
             iterations: this._iterationCount
         } );
     }
 
     encrypt( passPhrase, plainText ) {
-        // let iv = CryptoJS.lib.WordArray.random( this._ivSize / 8 ).toString( CryptoJS.enc.Hex );
-        let iv = CryptoJS.lib.WordArray.random( this._ivSize ).toString( CryptoJS.enc.Hex );
-        // let salt = CryptoJS.lib.WordArray.random( this.keySize / 8 ).toString( CryptoJS.enc.Hex );
-        let salt = CryptoJS.lib.WordArray.random( this.keySize / 16 ).toString( CryptoJS.enc.Hex );
+        let iv = CryptoJS.lib.WordArray.random( this._ivSize / 8 ).toString( CryptoJS.enc.Hex );
+        let salt = CryptoJS.lib.WordArray.random( this.keySize / 8 ).toString( CryptoJS.enc.Hex );
         let ciphertext = this.encryptWithIvSalt( salt, iv, passPhrase, plainText );
         return salt + iv + ciphertext;
     }
@@ -52,10 +47,8 @@ export default class AESUtil {
     }
 
     decrypt( passPhrase, cipherText ) {
-        // let ivLength = this._ivSize / 4;
-        let ivLength = this._ivSize;
-        // let saltLength = this.keySize / 4;
-        let saltLength = this.keySize / 16;
+        let ivLength = this._ivSize / 4;
+        let saltLength = this.keySize / 4;
         let salt = cipherText.substr( 0, saltLength );
         let iv = cipherText.substr( saltLength, ivLength );
         let encrypted = cipherText.substring( ivLength + saltLength );
